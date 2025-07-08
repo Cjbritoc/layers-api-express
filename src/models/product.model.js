@@ -8,19 +8,37 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  query, // Import query
+  where, // Import where
 } from "firebase/firestore";
 
 const productCollection = collection(db, "productos");
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (disponible=true) => {
   try {
-    const productList = await getDocs(productCollection);
+    const q = query(productCollection, where("disponible", "==", disponible)); // Filter by disponible == true
+    const productList = await getDocs(q); // Use the query
     const products = [];
     productList.forEach((doc) => products.push({ id: doc.id, ...doc.data() }));
 
     return products;
   } catch (error) {
     throw new Error("Error", error.message);
+  }
+};
+
+export const getProductByName = async (name) => {
+  try {
+    const q = query(productCollection, where("nombre", "==", name));
+    const productList = await getDocs(q);
+    if (!productList.empty) {
+      const doc = productList.docs[0];
+      return { id: doc.id, ...doc.data() };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    throw new Error("Error searching product by name", error.message);
   }
 };
 
@@ -45,6 +63,20 @@ export const getProductById = async (id) => {
     }
   } catch (error) {
     throw new Error("Error", error.message);
+  }
+};
+
+export const updateProduct = async (id, newData) => {
+  try {
+    const productRef = doc(db, "productos", id);
+    const productSnapshot = await getDoc(productRef);
+    if (!productSnapshot.exists()) {
+      return null; // Product not found
+    }
+    await updateDoc(productRef, newData);
+    return { id, ...newData };
+  } catch (error) {
+    throw new Error("Error updating product", error.message);
   }
 };
 

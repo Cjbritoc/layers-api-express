@@ -92,6 +92,289 @@ Crea un archivo `.env` en la raíz del proyecto basado en `.env.example` y confi
 
 ```
 
+## API Endpoints
+
+Esta sección detalla los endpoints disponibles en la API, incluyendo sus métodos, URLs, cuerpos de solicitud (si aplica), y ejemplos de respuestas exitosas y de error.
+
+### Productos
+
+#### `POST /api/v1/products`
+
+Crea un nuevo producto en la base de datos.
+
+*   **Método:** `POST`
+*   **URL:** `http://localhost:3000/api/v1/products`
+*   **Cuerpo de la Solicitud (Request Body):**
+    ```json
+    {
+      "nombre": "cocosete",    
+      "precio": 100, 
+      "disponible": true
+    }
+    ```
+    *   `nombre` (string): Requerido. Nombre del producto.
+    *   `precio` (number): Requerido. Precio del producto.
+    *   `disponible` (boolean): Opcional. Indica si el producto está disponible. Por defecto es `true`.
+
+*   **Respuestas Exitosas (Success Responses):**
+    *   **Código:** `201 Created`
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "success",
+            "message": "Operación exitosa",
+            "data": {
+                "nombre": "cocosete",
+                "precio": 100,
+                "disponible": true
+            }
+        }
+        ```
+
+*   **Respuestas de Error (Error Responses):**
+    *   **Código:** `400 Bad Request`
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "error",
+            "message": "Bad Request",
+            "error": {
+                "0": "El nombre debe ser un texto.",
+                "1": "El nombre es requerido.",
+                "2": "El precio debe ser un número.",
+                "3": "El precio es requerido."
+            }
+        }
+        ```
+
+#### `GET /api/v1/products`
+
+Obtiene una lista de todos los productos (disponibles y no disponibles).
+
+*   **Método:** `GET`
+*   **URL:** `http://localhost:3000/api/v1/products`
+*   **Respuestas Exitosas (Success Responses):**
+    *   **Código:** `200 OK`
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "success",
+            "message": "Operación exitosa",
+            "data": [
+                {
+                    "id": "jM9gItbDSvpgNl9sDE8N",
+                    "precio": 1200,
+                    "disponible": true,
+                    "nombre": "Laptop Pro"
+                },
+                {
+                    "id": "some-id-1",
+                    "precio": 500,
+                    "disponible": false,
+                    "nombre": "Producto No Disponible 1"
+                },
+                {
+                    "id": "vvA5my1Ls7gvokso3PUU",
+                    "nombre": "cocosete",
+                    "precio": 100,
+                    "disponible": true
+                }
+            ]
+        }
+        ```
+*   **Respuestas de Error (Error Responses):**
+    *   **Código:** `500 Internal Server Error` (o cualquier otro error general del servidor)
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "error",
+            "message": "Internal Server Error",
+            "error": "Ha ocurrido un error inesperado en el servidor."
+        }
+        ```
+
+#### `GET /api/v1/products/unavailable`
+
+Obtiene una lista de todos los productos no disponibles.
+
+*   **Método:** `GET`
+*   **URL:** `http://localhost:3000/api/v1/products/unavailable`
+*   **Respuestas Exitosas (Success Responses):**
+    *   **Código:** `200 OK`
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "success",
+            "message": "Operación exitosa",
+            "data": [
+                {
+                    "id": "some-id-1",
+                    "precio": 500,
+                    "disponible": false,
+                    "nombre": "Producto No Disponible 1"
+                },
+                {
+                    "id": "some-id-2",
+                    "nombre": "Producto No Disponible 2",
+                    "precio": 250,
+                    "disponible": false
+                }
+            ]
+        }
+        ```
+*   **Respuestas de Error (Error Responses):**
+    *   **Código:** `500 Internal Server Error` (o cualquier otro error general del servidor)
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "error",
+            "message": "Internal Server Error",
+            "error": "Ha ocurrido un error inesperado en el servidor."
+        }
+        ```
+
+#### `PUT /api/v1/products/:id`
+
+Actualiza un producto existente por su ID.
+
+*   **Método:** `PUT`
+*   **URL:** `http://localhost:3000/api/v1/products/:id`
+*   **Parámetros de Ruta:**
+    *   `id` (string): Requerido. El ID único del producto a actualizar.
+*   **Cuerpo de la Solicitud (Request Body):**
+    ```json
+    {
+      "nombre": "Nuevo Nombre",    // Opcional
+      "precio": 200,               // Opcional
+      "disponible": false          // Opcional
+    }
+    ```
+    *   Se requiere al menos uno de los campos (`nombre`, `precio`, `disponible`) para la actualización.
+
+*   **Respuestas Exitosas (Success Responses):**
+    *   **Código:** `200 OK`
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "success",
+            "message": "Operación exitosa",
+            "data": {
+                "id": "jM9gItbDSvpgNl9sDE8N",
+                "nombre": "Nuevo Nombre",
+                "precio": 200,
+                "disponible": false
+            }
+        }
+        ```
+*   **Respuestas de Error (Error Responses):**
+    *   **Código:** `400 Bad Request`
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "error",
+            "message": "Bad Request",
+            "error": {
+                "0": "El nombre debe ser un texto."
+            }
+        }
+        ```
+    *   **Código:** `404 Not Found`
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "error",
+            "message": "Not Found",
+            "error": "Producto con id [id] no encontrado para actualizar."
+        }
+        ```
+
+#### `GET /api/v1/products/:id`
+
+Obtiene los detalles de un producto específico por su ID.
+
+*   **Método:** `GET`
+*   **URL:** `http://localhost:3000/api/v1/products/:id`
+*   **Parámetros de Ruta:**
+    *   `id` (string): Requerido. El ID único del producto.
+*   **Respuestas Exitosas (Success Responses):**
+    *   **Código:** `200 OK`
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "success",
+            "message": "Operación exitosa",
+            "data": {
+                "id": "jM9gItbDSvpgNl9sDE8N",
+                "precio": 1200,
+                "disponible": true,
+                "nombre": "Laptop Pro"
+            }
+        }
+        ```
+*   **Respuestas de Error (Error Responses):**
+    *   **Código:** `404 Not Found`
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "error",
+            "message": "Not Found",
+            "error": "Producto no encontrado."
+        }
+        ```
+    *   **Código:** `400 Bad Request` (si el ID no es válido)
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "error",
+            "message": "Bad Request",
+            "error": {
+                "0": "El ID debe ser un texto válido."
+            }
+        }
+        ```
+
+#### `DELETE /api/v1/products/:id`
+
+Elimina un producto específico por su ID.
+
+*   **Método:** `DELETE`
+*   **URL:** `http://localhost:3000/api/v1/products/:id`
+*   **Parámetros de Ruta:**
+    *   `id` (string): Requerido. El ID único del producto a eliminar.
+*   **Respuestas Exitosas (Success Responses):**
+    *   **Código:** `200 OK`
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "success",
+            "message": "Operación exitosa",
+            "data": {
+                "id": "jM9gItbDSvpgNl9sDE8N"
+            }
+        }
+        ```
+*   **Respuestas de Error (Error Responses):**
+    *   **Código:** `404 Not Found`
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "error",
+            "message": "Not Found",
+            "error": "Producto no encontrado."
+        }
+        ```
+    *   **Código:** `400 Bad Request` (si el ID no es válido)
+    *   **Ejemplo de Respuesta:**
+        ```json
+        {
+            "status": "error",
+            "message": "Bad Request",
+            "error": {
+                "0": "El ID debe ser un texto válido."
+            }
+        }
+        ```
+
 ## Licencia
 
 Este proyecto está licenciado bajo la licencia **MIT**. Consulta el archivo [LICENSE](./LICENSE) para más detalles.
