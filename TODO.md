@@ -88,4 +88,5 @@ Este documento desglosa el desarrollo del proyecto en Sprints, cada uno con obje
     -   [ ] Escribir pruebas unitarias para los servicios y utilidades.
 -   [ ] **Épica 9: Funcionalidades Adicionales**
     -   [ ] Implementar paginación en la ruta de listar productos.
-    -   [ ] Implementar la ruta `PUT /api/v1/products/:id` para actualizar productos.
+    -   [x] Implementar la ruta `PUT /api/v1/products/:id` para actualizar productos.
+-   [x] **Gestión de Cantidad de Productos y Lógica de "Upsert"**: Se añadió el campo `cantidad` a los productos y se implementó la lógica para sumar cantidades al crear un producto con un nombre existente.

@@ -100,7 +100,7 @@ Esta sección detalla los endpoints disponibles en la API, incluyendo sus métod
 
 #### `POST /api/v1/products`
 
-Crea un nuevo producto en la base de datos.
+Crea un nuevo producto en la base de datos. Si un producto con el mismo `nombre` ya existe, su `cantidad` se sumará a la existente; de lo contrario, se creará un nuevo producto.
 
 *   **Método:** `POST`
 *   **URL:** `http://localhost:3000/api/v1/products`
@@ -109,12 +109,15 @@ Crea un nuevo producto en la base de datos.
     {
       "nombre": "cocosete",    
       "precio": 100, 
-      "disponible": true
+      "disponible": true,
+      "cantidad": 50
     }
     ```
     *   `nombre` (string): Requerido. Nombre del producto.
     *   `precio` (number): Requerido. Precio del producto.
     *   `disponible` (boolean): Opcional. Indica si el producto está disponible. Por defecto es `true`.
+    *   `cantidad` (number): Requerido. Cantidad del producto.
+
 
 *   **Respuestas Exitosas (Success Responses):**
     *   **Código:** `201 Created`
@@ -246,10 +249,11 @@ Actualiza un producto existente por su ID.
     {
       "nombre": "Nuevo Nombre",    // Opcional
       "precio": 200,               // Opcional
-      "disponible": false          // Opcional
+      "disponible": false,         // Opcional
+      "cantidad": 75               // Opcional
     }
     ```
-    *   Se requiere al menos uno de los campos (`nombre`, `precio`, `disponible`) para la actualización.
+    *   Se requiere al menos uno de los campos (`nombre`, `precio`, `disponible`, `cantidad`) para la actualización.
 
 *   **Respuestas Exitosas (Success Responses):**
     *   **Código:** `200 OK`

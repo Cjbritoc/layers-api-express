@@ -19,6 +19,7 @@ El proyecto sigue un patrón de **arquitectura en capas (Layered Architecture)**
 *   **Validación de Entrada:** Uso de `express-validator` para la validación de datos de entrada a través de middlewares, asegurando la integridad de los datos antes de que lleguen a la lógica de negocio.
 *   **Respuestas API Estandarizadas:** Todas las respuestas de la API (éxito y error) siguen un formato JSON consistente con campos `status`, `message` y `data` (o `error` en caso de fallo).
 *   **Configuración de Entorno:** Utilización del manejo nativo de variables de entorno de Node.js (`--env-file=.env`) para una configuración flexible y segura.
+*   **Gestión de Cantidad de Productos y Lógica de "Upsert"**: Se añadió el campo `cantidad` a los productos y se implementó una lógica de "upsert" en la creación de productos, donde si un producto con el mismo nombre ya existe, su cantidad se suma a la existente en lugar de crear un duplicado.
 
 ## Tecnologías Utilizadas
 
