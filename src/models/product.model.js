@@ -14,16 +14,29 @@ import {
 
 const productCollection = collection(db, "productos");
 
-export const getAllProducts = async (disponible=true) => {
-  try {
-    const q = query(productCollection, where("disponible", "==", disponible)); // Filter by disponible == true
-    const productList = await getDocs(q); // Use the query
-    const products = [];
-    productList.forEach((doc) => products.push({ id: doc.id, ...doc.data() }));
+// Helper function to map Firestore documents to product objects
+const mapProductDocs = (querySnapshot) => {
+  const products = [];
+  querySnapshot.forEach((doc) => products.push({ id: doc.id, ...doc.data() }));
+  return products;
+};
 
-    return products;
+export const getAllProducts = async () => {
+  try {
+    const productList = await getDocs(productCollection); // Get all products without filter
+    return mapProductDocs(productList);
   } catch (error) {
-    throw new Error("Error", error.message);
+    throw new Error(`Error getting all products: ${error.message}`);
+  }
+};
+
+export const getProductsByAvailability = async (disponible) => {
+  try {
+    const q = query(productCollection, where("disponible", "==", disponible));
+    const productList = await getDocs(q);
+    return mapProductDocs(productList);
+  } catch (error) {
+    throw new Error(`Error getting products by availability: ${error.message}`);
   }
 };
 
@@ -32,13 +45,14 @@ export const getProductByName = async (name) => {
     const q = query(productCollection, where("nombre", "==", name));
     const productList = await getDocs(q);
     if (!productList.empty) {
-      const doc = productList.docs[0];
-      return { id: doc.id, ...doc.data() };
+      // Since getProductByName expects a single product or null,
+      // we return the first one found, mapped using the helper.
+      return mapProductDocs(productList)[0];
     } else {
       return null;
     }
   } catch (error) {
-    throw new Error("Error searching product by name", error.message);
+    throw new Error(`Error searching product by name: ${error.message}`);
   }
 };
 
@@ -91,6 +105,6 @@ export const deleteProductById = async (id) => {
     await deleteDoc(productDoc);
     return { id };
   } catch (error) {
-    throw new Error("Error", error.message);
+    throw new Error(`Error deleting product by id: ${error.message}`);
   }
 };

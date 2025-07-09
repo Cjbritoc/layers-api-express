@@ -6,15 +6,16 @@ import {
   deleteProductById as deleteProductByIdFromModel,
   updateProduct as updateProductModel, // Import updateProduct from model
   getProductByName, // Import getProductByName
+  getProductsByAvailability, // Import the new function
 } from "../models/product.model.js";
 import { NotFoundError } from "../utils/errors.js";
 
 const getAll = async () => {
-  return await getAllProducts();
+  return await getAllProducts(); // Now calls the model function that gets all products
 };
 
 const getUnavailable = async () => {
-  return await getAllProducts(false);
+  return await getProductsByAvailability(false); // Uses the new specific function
 };
 
 const createProduct = async (product) => {
