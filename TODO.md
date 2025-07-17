@@ -76,7 +76,28 @@ Este documento desglosa el desarrollo del proyecto en Sprints, cada uno con obje
 -   [x] **Control de Versiones:** Creado `.gitignore` para excluir archivos y directorios innecesarios del control de versiones.
 -   [x] **Configuración de Pruebas:** Instalado `jest` y `supertest`, y configurado el script `test` en `package.json`.
 -   [x] **Implementación de Pruebas de API:** Creado `tests/product.test.js` con pruebas exhaustivas para la API de productos, incluyendo mocking de la base de datos.
--   [x] **Eliminación de Referencias de Autenticación:** Eliminadas todas las referencias a la autenticación del proyecto.
+---
+
+## Sprint 4: Autenticación y Seguridad
+
+**Objetivo:** Implementar un sistema de autenticación basado en JWT para proteger las rutas de la API.
+
+### Épica 6: Implementación de Rutas de Autenticación
+-   [x] **Tarea 6.1: Crear Rutas y Controlador de Autenticación**
+    -   Crear `src/routes/auth.routes.js` y `src/controllers/auth.controller.js`.
+    -   Implementar el endpoint `POST /api/v1/auth/login`.
+-   [x] **Tarea 6.2: Integrar Rutas de Autenticación**
+    -   Añadir las rutas de autenticación al enrutador principal en `src/routes/index.js`.
+
+### Épica 7: Gestión de JSON Web Tokens (JWT)
+-   [x] **Tarea 7.1: Crear Utilidad JWT**
+    -   Crear `src/utils/jwt.js` con funciones `generateToken` y `verifyToken`.
+    -   Asegurar que la clave secreta (`JWT_SECRET`) se lee desde las variables de entorno.
+-   [x] **Tarea 7.2: Implementar Middleware de Autenticación**
+    -   Crear `src/middlewares/auth.middleware.js` para proteger rutas.
+    -   El middleware debe verificar el token `Bearer` y adjuntar el usuario a `req.user`.
+-   [x] **Tarea 7.3: Estandarizar Validadores y Controladores**
+    -   Alinear `auth.validator.js` y `auth.controller.js` con el patrón de diseño del proyecto (uso de `res.locals` y `response.success/error`).
 
 ---
 
@@ -88,5 +109,4 @@ Este documento desglosa el desarrollo del proyecto en Sprints, cada uno con obje
     -   [ ] Escribir pruebas unitarias para los servicios y utilidades.
 -   [ ] **Épica 9: Funcionalidades Adicionales**
     -   [ ] Implementar paginación en la ruta de listar productos.
-    -   [x] Implementar la ruta `PUT /api/v1/products/:id` para actualizar productos.
--   [x] **Gestión de Cantidad de Productos y Lógica de "Upsert"**: Se añadió el campo `cantidad` a los productos y se implementó la lógica para sumar cantidades al crear un producto con un nombre existente.
+    -   [ ] Implementar la ruta `PUT /api/v1/products/:id` para actualizar productos.
