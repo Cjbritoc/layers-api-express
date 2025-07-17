@@ -107,6 +107,16 @@ Este documento desglosa el desarrollo del proyecto en Sprints, cada uno con obje
 
 -   [ ] **Épica 8: Pruebas Automatizadas**
     -   [ ] Escribir pruebas unitarias para los servicios y utilidades.
+-   [x] **Implementación de Ruta de Actualización:** Añadida la ruta `PUT /api/v1/products/:id` para actualizar productos existentes.
+-   [x] **Implementación de Ruta de Productos No Disponibles:** Añadida la ruta `GET /api/v1/products/unavailable` para consultar productos marcados como no disponibles.
+
+---
+
+## Backlog (Sprints Futuros)
+
+**Objetivo:** Añadir funcionalidades avanzadas y asegurar la calidad a largo plazo.
+
+-   [ ] **Épica 8: Pruebas Automatizadas**
+    -   [ ] Escribir pruebas unitarias para los servicios y utilidades.
 -   [ ] **Épica 9: Funcionalidades Adicionales**
     -   [ ] Implementar paginación en la ruta de listar productos.
-    -   [ ] Implementar la ruta `PUT /api/v1/products/:id` para actualizar productos.

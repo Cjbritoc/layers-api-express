@@ -64,10 +64,12 @@ Crea un archivo `.env` en la raíz del proyecto basado en `.env.example` y confi
 
 ### Productos
 
-*   **`GET /api/v1/products`**
-*   **`GET /api/v1/products/:id`**
-*   **`POST /api/v1/products`** (Ruta protegida)
-*   **`DELETE /api/v1/products/:id`** (Ruta protegida)
+*   **`GET /api/v1/products`**: Lista todos los productos disponibles.
+*   **`GET /api/v1/products/unavailable`**: Lista todos los productos no disponibles.
+*   **`GET /api/v1/products/:id`**: Obtiene un producto por su ID.
+*   **`POST /api/v1/products`** (Ruta protegida): Crea un nuevo producto.
+*   **`PUT /api/v1/products/:id`** (Ruta protegida): Actualiza un producto existente.
+*   **`DELETE /api/v1/products/:id`** (Ruta protegida): Elimina un producto.
 
 Para acceder a las rutas protegidas, incluye el token en el header `Authorization`:
 `Authorization: Bearer <TU_TOKEN_JWT>`
